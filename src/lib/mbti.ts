@@ -23,6 +23,14 @@ export const MBTI_TYPES = [
 /** 16가지 MBTI 유형 코드 타입 */
 export type MbtiType = (typeof MBTI_TYPES)[number];
 
+/** 전달받은 값이 16가지 MBTI 유형 코드 중 하나인지 검사합니다. */
+export function isValidMbtiType(value: unknown): value is MbtiType {
+  return (
+    typeof value === "string" &&
+    (MBTI_TYPES as readonly string[]).includes(value)
+  );
+}
+
 /**
  * 사용자가 선택한 성향 글자 목록을 바탕으로 최종 MBTI 4글자를 계산합니다.
  * - E/I, S/N, T/F, J/P 각 지표마다 더 많이 고른 쪽 글자를 선택합니다.

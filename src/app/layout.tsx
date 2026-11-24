@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
 import { AuthProvider } from "@/components/AuthProvider";
 import Header from "@/components/Header";
+import {
+  createPageMetadata,
+  DEFAULT_DESCRIPTION,
+  SERVICE_NAME,
+} from "@/lib/metadata";
 import "./globals.css";
 
 // next/font를 사용해 Google Fonts의 Noto Sans KR 글꼴을 최적화해 불러옵니다.
@@ -11,11 +16,11 @@ const notoSansKr = Noto_Sans_KR({
   display: "swap",
 });
 
-// 브라우저 탭 제목과 검색 엔진용 서비스 설명(메타데이터) 설정
-export const metadata: Metadata = {
-  title: "돌고래 MBTI",
-  description: "12개 질문에 답하면 16가지 성격 유형과 3D 동물 캐릭터를 알려주는 검사 서비스",
-};
+// 브라우저 탭 제목과 검색 엔진·링크 공유용 기본 설명(Open Graph 포함) 설정
+export const metadata: Metadata = createPageMetadata({
+  title: SERVICE_NAME,
+  description: DEFAULT_DESCRIPTION,
+});
 
 /**
  * 모든 페이지에 공통으로 적용되는 루트 레이아웃입니다.

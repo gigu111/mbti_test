@@ -1,10 +1,12 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import CharacterViewer from "@/components/characters/CharacterViewer";
 import SaveResultButton from "@/components/SaveResultButton";
 import ShareResultButton from "@/components/ShareResultButton";
 import { getMbtiTypeProfile } from "@/data/types";
-import { MBTI_TYPES, type MbtiType } from "@/lib/mbti";
+import { isValidMbtiType, MBTI_TYPES } from "@/lib/mbti";
+import { createPageMetadata } from "@/lib/metadata";
 
 /**
  * 빌드 시 16가지 MBTI 결과 페이지('/result/ENFP' 등)를 미리 생성하기 위한 목록입니다.
@@ -13,9 +15,29 @@ export function generateStaticParams() {
   return MBTI_TYPES.map((type) => ({ type }));
 }
 
-/** 전달받은 문자열이 16가지 MBTI 유형 코드 중 하나인지 검사합니다. */
-function isValidMbtiType(value: string): value is MbtiType {
-  return (MBTI_TYPES as readonly string[]).includes(value);
+/**
+ * URL의 MBTI 유형 코드에 맞춰 페이지 제목과 링크 공유 미리보기(Open Graph)를 동적으로 만듭니다.
+ */
+export async function generateMetadata({
+  params,
+}: PageProps<"/result/[type]">): Promise<Metadata> {
+  const { type } = await params;
+  const normalizedType = type.toUpperCase();
+
+  if (!isValidMbtiType(normalizedType)) {
+    return createPageMetadata({
+      title: "유형을 찾을 수 없어요 | 돌고래 MBTI",
+      description:
+        "요청하신 MBTI 유형 정보를 찾을 수 없어요. 첫 화면으로 돌아가 검사를 시작해 보세요.",
+    });
+  }
+
+  const profile = getMbtiTypeProfile(normalizedType);
+
+  return createPageMetadata({
+    title: `${profile.code} ${profile.nickname} | 돌고래 MBTI`,
+    description: profile.summary,
+  });
 }
 
 /** URL에서 type 값을 꺼내 해당 유형의 상세 결과(또는 없는 유형 안내)를 렌더링합니다. */

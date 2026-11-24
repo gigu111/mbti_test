@@ -1,4 +1,4 @@
-import { MBTI_TYPES, type MbtiType } from "@/lib/mbti";
+import { isValidMbtiType, type MbtiType } from "@/lib/mbti";
 import { supabase } from "@/lib/supabase";
 
 /**
@@ -33,7 +33,7 @@ export async function fetchMyTestResults(): Promise<TestResultRecord[]> {
     if (
       typeof row.id === "number" &&
       typeof row.created_at === "string" &&
-      isValidMbtiCode(row.mbti_type)
+      isValidMbtiType(row.mbti_type)
     ) {
       return [
         {
@@ -45,14 +45,6 @@ export async function fetchMyTestResults(): Promise<TestResultRecord[]> {
     }
     return [];
   });
-}
-
-/** 전달받은 값이 16가지 MBTI 유형 코드 중 하나인지 확인합니다. */
-export function isValidMbtiCode(value: unknown): value is MbtiType {
-  return (
-    typeof value === "string" &&
-    (MBTI_TYPES as readonly string[]).includes(value)
-  );
 }
 
 /**

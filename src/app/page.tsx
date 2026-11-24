@@ -1,5 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import HomeCharacterShowcase from "@/components/characters/HomeCharacterShowcase";
+import { createPageMetadata } from "@/lib/metadata";
+
+/** 첫 화면('/') 제목, 설명 및 링크 공유(Open Graph) 정보 */
+export const metadata: Metadata = createPageMetadata({
+  title: "돌고래 MBTI | 3D 동물 캐릭터 성격 유형 검사",
+  description:
+    "12개 질문에 답하고 나만의 16가지 성격 유형과 귀여운 3D 동물 캐릭터를 만나보세요.",
+});
 
 // 첫 화면에 보여줄 서비스 특징 카드 3개의 데이터 목록
 const FEATURE_CARDS = [

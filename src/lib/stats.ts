@@ -1,7 +1,6 @@
 import { getMbtiTypeProfile, type MbtiTypeProfile } from "@/data/types";
-import { MBTI_TYPES, type MbtiType } from "@/lib/mbti";
+import { isValidMbtiType, MBTI_TYPES, type MbtiType } from "@/lib/mbti";
 import { supabase } from "@/lib/supabase";
-import { isValidMbtiCode } from "@/lib/testResults";
 
 /** 막대 그래프 한 줄에 보여 줄 유형별 통계 정보입니다. */
 export interface TypeStatItem {
@@ -52,7 +51,7 @@ export async function fetchTypeStatsSummary(): Promise<StatsSummary> {
     if (typeof row !== "object" || row === null) continue;
 
     const record = row as { mbti_type?: unknown; count?: unknown };
-    if (!isValidMbtiCode(record.mbti_type)) continue;
+    if (!isValidMbtiType(record.mbti_type)) continue;
 
     const numericCount = Number(record.count);
     if (!Number.isFinite(numericCount) || numericCount < 0) continue;
