@@ -19,6 +19,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 - Next.js(App Router) + TypeScript + Tailwind CSS를 사용한다
 - 3D 캐릭터는 React Three Fiber로, 데이터베이스와 로그인은 Supabase로 만들 예정이며, 사용자가 요청하기 전에는 미리 설치하지 않는다
+- 브라우저에서 `@supabase/supabase-js`로 Supabase를 직접 호출하는 단순한 구조를 유지하며, `@supabase/ssr`, 미들웨어(proxy), 서버 액션, 서버 쪽 인증은 쓰지 않는다
+- 비밀 키(`sb_secret_`로 시작하는 키, `service_role` 키)와 DB 비밀번호는 이 프로젝트 어디에도 넣지 않는다
 - 화면에 보이는 글은 모두 한국어로 작성한다
 - 휴대폰 화면(가로 375px)에서 먼저 보기 좋게(모바일 우선) 만든다
 
