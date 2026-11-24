@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import CharacterViewer from "@/components/characters/CharacterViewer";
+import SaveResultButton from "@/components/SaveResultButton";
 import ShareResultButton from "@/components/ShareResultButton";
 import { getMbtiTypeProfile } from "@/data/types";
 import { MBTI_TYPES, type MbtiType } from "@/lib/mbti";
@@ -188,8 +189,10 @@ async function ResultContent({
         </div>
       </section>
 
-      {/* 6. 하단 버튼 2개: '다시 검사하기'(/test) + '결과 공유하기'(주소 복사) */}
-      <section aria-label="결과 이동 및 공유" className="mt-1 flex flex-col gap-3">
+      {/* 6. 하단 버튼 3개: '내 기록에 저장' + '다시 검사하기'(/test) + '결과 공유하기'(주소 복사) */}
+      <section aria-label="결과 저장 및 공유" className="mt-1 flex flex-col gap-3">
+        <SaveResultButton mbtiType={profile.code} />
+
         <Link
           href="/test"
           className="flex h-14 w-full items-center justify-center rounded-2xl bg-white/95 px-5 text-[16px] font-bold text-slate-700 shadow-xs ring-1 ring-slate-200/90 transition-all hover:bg-white active:scale-[0.98]"
