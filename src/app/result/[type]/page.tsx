@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
+import CharacterViewer from "@/components/characters/CharacterViewer";
 import ShareResultButton from "@/components/ShareResultButton";
 import { getMbtiTypeProfile } from "@/data/types";
 import { MBTI_TYPES, type MbtiType } from "@/lib/mbti";
@@ -68,7 +69,7 @@ async function ResultContent({
       }}
     >
       {/* 1. 상단 유형 소개: "당신의 유형은", 유형 코드(크게), 별명 */}
-      <section className="rounded-3xl bg-white/88 px-6 py-7 text-center shadow-[0_14px_40px_-14px_rgba(71,85,105,0.16)] ring-1 ring-white">
+      <section className="rounded-3xl bg-white/88 px-5 py-6 text-center shadow-[0_14px_40px_-14px_rgba(71,85,105,0.16)] ring-1 ring-white">
         <p className="inline-flex items-center rounded-full bg-slate-100/80 px-3.5 py-1 text-xs font-semibold text-slate-600">
           당신의 유형은
         </p>
@@ -81,14 +82,15 @@ async function ResultContent({
           {profile.nickname}
         </p>
 
-        {/* 2. 캐릭터 자리: 대표 색상 배경의 둥근 상자 안에 캐릭터 이름만 표시 */}
+        {/* 2. 캐릭터 자리: 대표 색상 배경의 둥근 무대 위에 해당 유형의 3D 캐릭터 표시 */}
         <div
-          className="mt-5 flex min-h-[168px] w-full items-center justify-center rounded-3xl px-6 py-8 shadow-inner ring-2 ring-white/85"
+          className="relative mt-4 h-[284px] w-full overflow-hidden rounded-3xl shadow-inner ring-2 ring-white/85"
           style={{ backgroundColor: profile.color }}
         >
-          <span className="text-2xl font-extrabold tracking-tight text-slate-800">
+          <CharacterViewer type={profile.code} />
+          <p className="pointer-events-none absolute right-3 bottom-2.5 rounded-full bg-white/85 px-3 py-1 text-[11px] font-bold text-slate-700 shadow-xs backdrop-blur-xs">
             {profile.character.name}
-          </span>
+          </p>
         </div>
       </section>
 
