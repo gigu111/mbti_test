@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
+import { AuthProvider } from "@/components/AuthProvider";
 import Header from "@/components/Header";
 import "./globals.css";
 
@@ -25,16 +26,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="ko" className={notoSansKr.variable}>
       <body className="min-h-dvh bg-gradient-to-br from-[#dcf6ee] via-[#eaf8f5] to-[#f2f9ff] text-slate-800">
-        {/* 가운데 정렬 + 최대 너비 480px 모바일 프레임 영역 */}
-        <div className="mx-auto flex min-h-dvh w-full max-w-[480px] flex-col bg-gradient-to-b from-[#f6fbff] via-[#faf8ff] to-[#fffaf5] sm:border-x sm:border-white/90 sm:shadow-[0_20px_60px_-20px_rgba(61,150,130,0.22)]">
-          {/* 모든 페이지 공통 상단 헤더 */}
-          <Header />
+        {/* 앱 전체에서 로그인 상태를 공유하도록 AuthProvider 로 감쌉니다. */}
+        <AuthProvider>
+          {/* 가운데 정렬 + 최대 너비 480px 모바일 프레임 영역 */}
+          <div className="mx-auto flex min-h-dvh w-full max-w-[480px] flex-col bg-gradient-to-b from-[#f6fbff] via-[#faf8ff] to-[#fffaf5] sm:border-x sm:border-white/90 sm:shadow-[0_20px_60px_-20px_rgba(61,150,130,0.22)]">
+            {/* 모든 페이지 공통 상단 헤더 */}
+            <Header />
 
-          {/* 각 페이지 본문이 들어가는 영역 */}
-          <main className="flex flex-1 flex-col px-5 pt-4 pb-6">
-            {children}
-          </main>
-        </div>
+            {/* 각 페이지 본문이 들어가는 영역 */}
+            <main className="flex flex-1 flex-col px-5 pt-4 pb-6">
+              {children}
+            </main>
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );
